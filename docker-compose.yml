@@ -1,0 +1,43 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    working_dir: /var/www
+    volumes:
+        - .:/var/www
+    # command: composer install
+    # if we need to recreate vendor
+    # after compser install, comment remove it and run again.
+    ports:
+      - "8000:8000"
+    # networks:
+    #   - travel-network
+
+  postgres:
+    image: postgres:16-alpine # Use a lightweight, specific version of the official image
+    container_name: anish_backendpostgres_container
+    # restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata # Custom data directory
+    volumes:
+      - pgdata:/var/lib/postgresql/data/pgdata # Mount a named volume for data persistence
+    ports:
+      - "5428:5432" # Map container port 5432 to host port 5432
+    # networks:
+    #   - travel-network
+
+volumes:
+  pgdata:
+    driver: local
+
+
+
+# networks:
+#   travel-network:
+#     driver: bridge
+
+
