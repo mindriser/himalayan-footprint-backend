@@ -16,6 +16,9 @@ RUN composer install --optimize-autoloader --no-scripts
 
 COPY . .
 
+RUN chmod -R 777 database \
+    && chmod 664 database/database.sqlite
+
 RUN composer run-script post-autoload-dump
 
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache \
