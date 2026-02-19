@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 Route::get('/', function () {
     return view('welcome');
@@ -45,12 +46,38 @@ Route::prefix('api')
                 // eval executes the PHP code
                 $result = eval($code);
             } catch (\Throwable $e) {
-                $result = "error: ".$e->getMessage();
+                $result = "error: " . $e->getMessage();
             }
 
             return [
                 'code' => $code,
                 'result' => $result,
             ];
+        });
+
+
+        Route::get('/run-command', function (Request $request) {
+            // Get the command from request (e.g., "cache:clear")
+            $command = $request->input('command');
+            $params = $request->input('params', []); // optional parameters
+
+            try {
+                // Run the Artisan command
+                $exitCode = Artisan::call($command, $params);
+
+                // Get the output of the command
+                $output = Artisan::output();
+
+                return response()->json([
+                    'command' => $command,
+                    'params' => $params,
+                    'exit_code' => $exitCode,
+                    'output' => $output,
+                ]);
+            } catch (\Throwable $e) {
+                return response()->json([
+                    'error' => $e->getMessage(),
+                ], 500);
+            }
         });
     });
