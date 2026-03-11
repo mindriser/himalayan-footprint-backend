@@ -20,6 +20,9 @@ return new class extends Migration
             $table->text('description')->nullable(); // rich text stored as HTML
             $table->tinyInteger('rating')->default(5); // 1-5
             $table->date('review_date')->nullable();
+            $table->boolean('is_featured')->default(false); // show on homepage
+            $table->enum('created_by', ['admin', 'user'])->default('admin'); // created by admin or user
+            $table->enum('status', ['approved', 'pending', 'rejected'])->default('pending'); // status
             $table->timestamps();
         });
     }

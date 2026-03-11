@@ -46,10 +46,13 @@ return new class extends Migration
 
             $table->integer('num_travelers');
 
+            $table->decimal('single_person_price', 10, 2); // snapshot
+            $table->decimal('group_person_price', 10, 2); // snapshot
             $table->decimal('base_price', 10, 2); // snapshot
             $table->decimal('total_price', 10, 2); // snapshot
+            $table->integer('min_group_size'); // snapshot
 
-            $table->string('currency', 4); // USD, EUR, NPR  // snapshot from product variant
+            // $table->string('currency', 4); // USD, EUR, NPR  // snapshot from product variant
 
             $table->enum('booking_status', [
                 'pending',

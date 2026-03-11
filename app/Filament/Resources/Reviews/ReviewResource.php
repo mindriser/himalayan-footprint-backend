@@ -16,11 +16,15 @@ use Filament\Tables\Table;
 
 class ReviewResource extends Resource
 {
+    protected static string | \UnitEnum | null $navigationGroup = 'Packages';
+
     protected static ?string $model = Review::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'reviewer_name';
+
+    protected static ?string $navigationLabel = 'Package Reviews';  // ADD T
 
     public static function form(Schema $schema): Schema
     {

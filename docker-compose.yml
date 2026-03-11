@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: dockerfile
     working_dir: /var/www
+    user: "${UID}:${GID}"   # 👈 ADD THIS LINE
     volumes:
         - .:/var/www
+        - ./docker/php/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini  # ADD THIS
     # command: composer install
     # if we need to recreate vendor
     # after compser install, comment remove it and run again.

@@ -5,8 +5,10 @@ namespace App\Filament\Resources\Reviews\Tables;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
+use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Table;
 
 class ReviewsTable
@@ -18,23 +20,23 @@ class ReviewsTable
                 // TextColumn::make('package_id')
                 //     ->numeric()
                 //     ->sortable(),
-                    TextColumn::make('package.title') // Access the related package's title
-    ->label('Package')
-    ->sortable()
-    ->searchable(),
-                    // Select::make('package_id')
-                    // ->label('Package')
-                    // ->required()
-                    // ->preload()
-                    // ->searchable()
-                    // ->options(function () {
-                    //     return Package::active()->get()
-                    //         ->mapWithKeys(function ($el) {
-                    //             return [$el->id => $el->title];
-                    //         })
-                    //         ->toArray();
-                    // })
-                    // ->placeholder('Select a package'),
+                TextColumn::make('package.title') // Access the related package's title
+                    ->label('Package')
+                    ->sortable()
+                    ->searchable(),
+                // Select::make('package_id')
+                // ->label('Package')
+                // ->required()
+                // ->preload()
+                // ->searchable()
+                // ->options(function () {
+                //     return Package::active()->get()
+                //         ->mapWithKeys(function ($el) {
+                //             return [$el->id => $el->title];
+                //         })
+                //         ->toArray();
+                // })
+                // ->placeholder('Select a package'),
                 TextColumn::make('reviewer_name')
                     ->searchable(),
                 ImageColumn::make('reviewer_image'),
@@ -45,6 +47,13 @@ class ReviewsTable
                     ->sortable(),
                 TextColumn::make('review_date')
                     ->date()
+                    ->sortable(),
+                // IconColumn::make('is_featured')
+                //     ->label('Featured')
+                //     ->boolean(),
+
+                ToggleColumn::make('is_featured')
+                    ->label('Featured')
                     ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()

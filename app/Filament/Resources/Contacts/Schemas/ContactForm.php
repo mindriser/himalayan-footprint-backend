@@ -12,46 +12,32 @@ class ContactForm
     {
         return $schema
             ->components([
-                // TextInput::make('type')
-                //     ->label('Contact Type')
-                //     ->placeholder('example: phone, whatsapp, email, viber')
-                //     ->required()
-                //     ->maxLength(100), // lets donot let them add directly, lets first show option and only when type not in option, lets them
-                // add new fiels
-
-                // Select::make('type')
-                //     ->label('Contact Type')
-                //     ->options([
-                //         'phone' => 'Phone',
-                //         'email' => 'Email',
-                //         'whatsapp' => 'WhatsApp',
-                //         'viber' => 'Viber',
-                //         'facebook' => 'Facebook',
-                //     ])
-                //     ->searchable()
-                //     ->required()
-
-                //     // allow adding new type ONLY if not in list
-                //     ->createOptionForm([
-                //         TextInput::make('type')
-                //             ->label('New Contact Type')
-                //             ->required()
-                //             ->maxLength(100),
-                //     ])
-
-                //     // save the created option value
-                //     ->createOptionUsing(function (array $data): string {
-                //         return $data['type'];
-                //     }),
 
                 Select::make('type')
                     ->label('Contact Type')
                     ->options([
+                        'info' => 'Info',
+                        'social' => 'Social ',
+                    ])
+                    ->required(),
+
+                Select::make('service')
+                    ->label('Service')
+                    ->options([
                         'phone' => 'Phone',
                         'email' => 'Email',
+                        'office' => 'Office',
                         'whatsapp' => 'WhatsApp',
                         'viber' => 'Viber',
+                        'google_map_embed_link' => 'Google Embed Link',
+                        'google_map_link' => 'Google Map Link',
+                        //
+                        //
                         'facebook' => 'Facebook',
+                        'instagram' => 'Instagram',
+                        'trip_advisor' => 'Trip Advisor',
+                        'youtube' => 'Youtube',
+                        'tiktok' => 'Tiktok',
                     ])
                     ->searchable()
                     ->required()
@@ -85,7 +71,30 @@ class ContactForm
                     ->label('Contact Value')
                     ->placeholder('example: 9813948455 or abc@gmail.com or https://facebook.com/page')
                     ->required()
-                    ->maxLength(500),
+                    ->maxLength(1000),
+
+                TextInput::make('sub')
+                    ->label('Sub Text')
+                    ->placeholder('example: Primary Number , we usually reply within 1 hour ')
+                    ->maxLength(50),
+
+                TextInput::make('label')
+                    ->label('contact Label')
+                    ->placeholder('example: Primary phone, Alternative phone')
+                    ->maxLength(100),
+
+                TextInput::make('order')
+                    ->label('Display Order')
+                    ->placeholder('Default is 5')
+                    ->numeric() // ensures only numbers
+                    ->default(5) // default value
+                    ->minValue(1) // optional: minimum allowed value
+                    ->maxValue(100), // optional: maximum allowed value
+                // ->required(),
+                TextInput::make('href')
+                    ->label('Redirect To')
+                    ->placeholder('example: tel+977 9840425XXX ')
+                    ->maxLength(1000),
             ]);
     }
 }

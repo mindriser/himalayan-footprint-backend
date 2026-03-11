@@ -8,6 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class Package extends Model
 {
     protected $guarded  = [];
+    protected $appends = ['total_reviews', 'rating'];
+
+
+    // Accessor for total reviews
+    public function getTotalReviewsAttribute()
+    {
+        // Count all reviews for this package
+        return $this->reviews()->count();
+    }
+
+    // Accessor for average rating
+    public function getRatingAttribute()
+    {
+        // Average rating of all reviews
+        return round($this->reviews()->avg('rating') ?? 0, 2);
+    }
 
     // protected static function booted()
     // {
@@ -21,10 +37,10 @@ class Package extends Model
         return $query->where('is_active', true);
     }
 
-    // public function category()
-    // {
-    //     return $this->belongsTo(Category::class);
-    // }
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 
     // public function variants()
     // {
@@ -36,7 +52,16 @@ class Package extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    public function primaryImage()
+    public function topImages()
+    {
+        return $this->morphMany(Image::class, 'imageable')
+            ->orderByDesc('is_primary')
+            ->latest()
+            ->take(2);
+    }
+
+
+    public function primaryImages()
     {
         return $this->images()->where('is_primary', true);
     }
@@ -105,5 +130,25 @@ class Package extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function blogs()
+    {
+        return $this->belongsToMany(
+            Blog::class,
+            'blog_packages',
+            'package_id',
+            'blog_id'
+        );
+    }
+
+    public function relatedPackages()
+    {
+        return $this->belongsToMany(
+            Package::class,
+            'related_packages',      // 👈 correct table name
+            'package_id',            // 👈 current model key
+            'related_package_id'     // 👈 related model key
+        );
     }
 }

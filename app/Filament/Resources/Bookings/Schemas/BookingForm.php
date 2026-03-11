@@ -25,18 +25,17 @@ class BookingForm
                     ->preload() // load options when form loads
                     ->searchable()
                     ->options(function () {
-                        return Departure::with('variant.package') // eager load variant and package
-                            ->whereHas('variant', function ($query) {
+                        return Departure::with('package') // eager load variant and package
+                            ->whereHas('package', function ($query) {
                                 $query->where('is_active', true); // only departures with active variants
                             })
                             ->get()
                             ->mapWithKeys(function ($departure) {
                                 // value = departure id, label = "Package - Variant - Start Date"
-                                $packageTitle = $departure->variant->package->title ?? '';
-                                $variantName = $departure->variant->variation_name ?? '';
+                                $packageTitle = $departure->package->title ?? '';
                                 $startDate = Carbon::parse($departure->start_date)->format('Y-m-d');
                                 $endDate = Carbon::parse($departure->end_date)->format('Y-m-d');
-                                return [$departure->id => "{$packageTitle} {$variantName} : {$startDate}-{$endDate}"];
+                                return [$departure->id => "{$packageTitle} : {$startDate}-{$endDate}"];
                             })
                             ->toArray();
                     })
@@ -49,6 +48,18 @@ class BookingForm
                     ->required(),
                 TextInput::make('booking_reference')
                     ->required(),
+                TextInput::make('min_group_size')
+                    ->label("Number of travellers to be considered group")
+                    ->required()
+                    ->numeric(),
+                TextInput::make('single_person_price')
+                    ->label("price per Individual")
+                    ->required()
+                    ->numeric(),
+                TextInput::make('group_person_price')
+                    ->label("price per person in a group")
+                    ->required()
+                    ->numeric(),
                 TextInput::make('num_travelers')
                     ->label("Number of travellers")
                     ->required()
@@ -61,9 +72,9 @@ class BookingForm
                     ->required()
                     ->numeric()
                     ->prefix('$'),
-                TextInput::make('currency')
-                    ->maxLength(4)
-                    ->required(),
+                // TextInput::make('currency')
+                //     ->maxLength(4)
+                //     ->required(),
                 Select::make('booking_status')
                     ->options([
                         'pending' => 'Pending',

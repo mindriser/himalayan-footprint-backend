@@ -13,6 +13,9 @@ class BannerController extends Controller
     public function index()
     {
         //
+        return response()->json([
+            "data" => Banner::all()
+        ]);
     }
 
     /**

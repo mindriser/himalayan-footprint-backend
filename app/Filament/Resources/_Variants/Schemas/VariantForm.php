@@ -28,21 +28,21 @@ class VariantForm
                 TextInput::make('variation_name')
                     ->required(),
 
-                TextInput::make('old_single_price')
-                    ->label('Old Single Person Price')
-                    ->numeric()
-                    ->step(0.01)
-                    ->rule('decimal:0,2')
-                    ->afterStateUpdated(
-                        fn($state, $set) =>
-                        $set('old_single_price', number_format((float) $state, 2, '.', ''))
-                    )
-                    ->prefix('$'),
-                TextInput::make('new_single_price')
-                    ->label('New Single Person Price')
+                // TextInput::make('old_single_price')
+                //     ->label('Old Single Person Price')
+                //     ->numeric()
+                //     ->step(0.01)
+                //     ->rule('decimal:0,2')
+                //     ->afterStateUpdated(
+                //         fn($state, $set) =>
+                //         $set('old_single_price', number_format((float) $state, 2, '.', ''))
+                //     )
+                //     ->prefix('$'),
+                // TextInput::make('new_single_price')
+                //     ->label('New Single Person Price')
 
-                    ->numeric()
-                    ->prefix('$'),
+                //     ->numeric()
+                //     ->prefix('$'),
                 TextInput::make('old_group_price')
                     ->numeric()
                     ->prefix('$'),

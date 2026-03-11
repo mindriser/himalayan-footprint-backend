@@ -13,6 +13,14 @@ class TeamController extends Controller
     public function index()
     {
         //
+        $teams = Team::orderBy('department')
+        ->orderBy('name')
+        ->get()
+        ->groupBy('department');
+        return response()->json([
+            'status' => true,
+            'data' => $teams
+        ]);
     }
 
     /**

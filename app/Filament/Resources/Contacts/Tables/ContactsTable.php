@@ -15,9 +15,15 @@ class ContactsTable
         return $table
             ->columns([
                 TextColumn::make('type')
-                    ->searchable(),
+                    ->searchable()->sortable(),
+                TextColumn::make('service')
+                    ->searchable()->sortable(),
+                TextColumn::make('label')
+                    ->searchable()->sortable(),
+                TextColumn::make('order')
+                    ->searchable()->sortable(),
                 TextColumn::make('value')
-                    ->searchable(),
+                    ->searchable()->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

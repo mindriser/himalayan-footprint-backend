@@ -13,8 +13,28 @@ class Departure extends Model
         return $query->where('type', "fixed");
     }
 
+
+    // ─── Scopes ──────────────────────────────────────────────────
+
+    public function scopeCustom($query)
+    {
+        return $query->where('type', 'custom');
+    }
+
+    public function scopeOpen($query)
+    {
+        return $query->where('status', 'open');
+    }
+
+
+
     public function package()
     {
         return $this->belongsTo(Package::class);
+    }
+
+    public function customDetail()
+    {
+        return $this->hasOne(CustomDepartureDetail::class);
     }
 }

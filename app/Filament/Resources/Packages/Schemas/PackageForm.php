@@ -27,15 +27,25 @@ class PackageForm
                 Section::make('Basic Information')
                     ->columns(2)
                     ->components([
-                        Select::make('category') // the enum column name
-                            ->label('Category') // optional, for display
+                        // fetch options from categories table
+
+                        // Select::make('category_id') // the enum column name
+                        //     ->label('Category') // optional, for display
+                        //     ->required()
+                        //     ->options([
+                        //         'tour' => 'Tour',
+                        //         'trek' => 'Trek',
+                        //     ])
+                        //     ->default('tour')
+                        //     ->searchable(),
+
+                        Select::make('category_id')
+                            ->label('Category')
                             ->required()
-                            ->options([
-                                'tour' => 'Tour',
-                                'trek' => 'Trek',
-                            ])
-                            ->default('tour')
-                            ->searchable(),
+                            ->searchable()
+                            ->preload()
+                            ->relationship('category', 'name'),
+
                         TextInput::make('title')
                             ->required()
                             ->live(onBlur: true)
@@ -43,13 +53,16 @@ class PackageForm
                                 fn($state, callable $set) =>
                                 $set('slug', Str::slug($state))
                             ),
+
+                        //  FIXME: donot change slug if the package has been already published before.
+
                         TextInput::make('slug')
                             ->required()
                             ->unique(ignoreRecord: true)
                             ->helperText('Auto-generated from title. Use lowercase letters and hyphens only. Spaces not allowed !')
                             ->placeholder('e.g. langtang-valley-trek')
                             ->regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/'),
-
+                        // FIXME: should be unique...
 
                         // TextInput::make('title')
                         //     ->required()
@@ -83,36 +96,36 @@ class PackageForm
                             ->required()
                             ->placeholder('e.g. 15'),
 
-                        TextInput::make('total_reviews')
-                            ->label('Total Reviews')
-                            ->numeric()
-                            ->integer()
-                            ->minValue(0)
-                            ->placeholder('e.g. 120'),
+                        // TextInput::make('total_reviews')
+                        //     ->label('Total Reviews')
+                        //     ->numeric()
+                        //     ->integer()
+                        //     ->minValue(0)
+                        //     ->placeholder('e.g. 120'),
 
-                        TextInput::make('rating')
-                            ->label('Review Rating')
-                            ->numeric()
-                            ->minValue(1)
-                            ->maxValue(5)
-                            ->step(0.1)
-                            ->placeholder('e.g. 4'),
+                        // TextInput::make('rating')
+                        //     ->label('Review Rating')
+                        //     ->numeric()
+                        //     ->minValue(1)
+                        //     ->maxValue(5)
+                        //     ->step(0.1)
+                        //     ->placeholder('e.g. 4'),
 
-                        TextInput::make('old_single_price')
-                            ->label('Old Single Person Price')
-                            ->numeric()
-                            ->step(0.01)
-                            ->rule('decimal:0,2')
-                            ->afterStateUpdated(
-                                fn($state, $set) =>
-                                $set('old_single_price', number_format((float) $state, 2, '.', ''))
-                            )
-                            ->prefix('$'),
-                        TextInput::make('new_single_price')
-                            ->label('New Single Person Price')
+                        // TextInput::make('old_single_price')
+                        //     ->label('Old Single Person Price')
+                        //     ->numeric()
+                        //     ->step(0.01)
+                        //     ->rule('decimal:0,2')
+                        //     ->afterStateUpdated(
+                        //         fn($state, $set) =>
+                        //         $set('old_single_price', number_format((float) $state, 2, '.', ''))
+                        //     )
+                        //     ->prefix('$'),
+                        // TextInput::make('new_single_price')
+                        //     ->label('New Single Person Price')
 
-                            ->numeric()
-                            ->prefix('$'),
+                        //     ->numeric()
+                        //     ->prefix('$'),
                         TextInput::make('old_group_price')
                             ->numeric()
                             ->prefix('$'),
@@ -120,6 +133,7 @@ class PackageForm
                             ->numeric()
                             ->prefix('$'),
                         TextInput::make('min_group_size')
+                            ->required()
                             ->placeholder('e.g. 12 to be considered a group')
                             ->numeric(),
                     ]),
@@ -249,61 +263,62 @@ class PackageForm
                             ->helperText('Not used by Google, but may be used by some other search engines.'),
                     ]),
 
-                Section::make('Itinerary')
-                    ->collapsed(true)
-                    ->lazy() // <--- key optimization
-                    ->columnSpanFull()
-                    ->schema([
+                // Section::make('Itinerary')
+                //     ->collapsed(true)
+                //     ->lazy() // <--- key optimization
+                //     ->columnSpanFull()
+                //     ->schema([
 
-                        Repeater::make('itineraries')
-                            ->lazy()
-                            ->relationship()
-                            ->schema([
+                //         Repeater::make('itineraries')
+                //             ->lazy()
+                //             ->relationship()
+                //             ->schema([
 
-                                TextInput::make('day_number')
-                                    ->numeric()
-                                    ->required()
-                                    ->label('Day Number'),
+                //                 TextInput::make('day_number')
+                //                     ->numeric()
+                //                     ->required()
+                //                     ->label('Day Number'),
 
-                                TextInput::make('title')
-                                    ->label('Title'),
+                //                 TextInput::make('title')
+                //                     ->label('Title'),
 
-                                RichEditor::make('description')
-                                    ->required()
-                                    ->columnSpanFull(),
+                //                 RichEditor::make('description')
+                //                     ->required()
+                //                     ->columnSpanFull(),
 
-                                // Images repeater
-                                Repeater::make('images')
-                                    ->lazy()
-                                    ->relationship()
-                                    ->label('Images')
-                                    ->schema([
+                //                 // Images repeater
+                //                 Repeater::make('images')
+                //                     ->lazy()
+                //                     ->relationship()
+                //                     ->label('Images')
+                //                     ->schema([
 
-                                        FileUpload::make('image_url')
-                                            ->label('Image')
-                                            ->image()
-                                            // ->directory('itineraries')
-                                            ->required()
-                                            ->imagePreviewHeight('150')
-                                            ->openable()
-                                            ->downloadable(),
+                //                         FileUpload::make('image_url')
+                //                             ->label('Image')
+                //                             ->image()
+                //                             // ->directory('itineraries')
+                //                             ->required()
+                //                             ->imagePreviewHeight('150')
+                //                             ->openable()
+                //                             ->downloadable(),
 
-                                    ])
-                                    ->grid(3)
-                                    ->collapsible()
-                                    ->addActionLabel('Add Image'),
+                //                     ])
+                //                     ->grid(3)
+                //                     ->collapsible()
+                //                     ->addActionLabel('Add Image'),
 
-                            ])
-                            ->itemLabel(
-                                fn($state) =>
-                                isset($state['day_number'])
-                                    ? "Day {$state['day_number']}"
-                                    : null
-                            )
-                            ->collapsible()
-                            ->addActionLabel('Add Day'),
+                //             ])
+                //             ->itemLabel(
+                //                 fn($state) =>
+                //                 isset($state['day_number'])
+                //                     ? "Day {$state['day_number']}"
+                //                     : null
+                //             )
+                //             ->collapsible()
+                //             ->addActionLabel('Add Day'),
 
-                    ]),
+                //     ]),
+
                 Section::make('FAQs')
                     ->collapsed(true)
                     ->collapsible()
@@ -432,6 +447,24 @@ class PackageForm
 
                     ])
                     ->columnSpanFull(),
+
+                Select::make('relatedPackages')
+                    ->multiple()
+                    ->relationship(
+                        name: 'relatedPackages',
+                        titleAttribute: 'title',
+                        modifyQueryUsing: function ($query, $record) {
+                            if ($record) {
+                                $query->where('packages.id', '!=', $record->id);
+                            }
+                        }
+                    )
+                    ->getOptionLabelFromRecordUsing(
+                        fn($record) =>
+                        "{$record->title} (ID: {$record->id}) - {$record->category->name}"
+                    )
+                    ->searchable()
+                    ->preload(),
 
 
                 Section::make('Draft / Publish')

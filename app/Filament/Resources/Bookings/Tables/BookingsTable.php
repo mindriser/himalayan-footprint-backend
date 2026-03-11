@@ -36,8 +36,8 @@ class BookingsTable
                 TextColumn::make('total_price')
                     ->money()
                     ->sortable(),
-                TextColumn::make('currency')
-                    ->searchable(),
+                // TextColumn::make('currency')
+                //     ->searchable(),
                 TextColumn::make('booking_status')
                     ->searchable(),
                 TextColumn::make('payment_status')

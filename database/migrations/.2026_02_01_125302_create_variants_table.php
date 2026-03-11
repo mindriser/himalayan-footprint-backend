@@ -20,8 +20,8 @@ return new class extends Migration
 
             $table->string('variation_name'); // standard, luxury
 
-            $table->decimal('old_single_price', 10, 2)->nullable();
-            $table->decimal('new_single_price', 10, 2)->nullable();
+            // $table->decimal('old_single_price', 10, 2)->nullable();
+            // $table->decimal('new_single_price', 10, 2)->nullable();
 
             $table->decimal('old_group_price', 10, 2)->nullable();
             $table->decimal('new_group_price', 10, 2)->nullable();

@@ -15,4 +15,9 @@ class Review extends Model
     {
         return $this->belongsTo(Package::class);
     }
+
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
 }

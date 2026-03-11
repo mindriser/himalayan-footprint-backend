@@ -32,7 +32,7 @@ return new class extends Migration
             $table->integer('max_capacity');
             $table->integer('current_occupancy')->default(0);
 
-            $table->enum('status', ['open', 'full', 'closed', 'guaranteed'])
+            $table->enum('status', ['pending','open', 'full', 'closed', 'guaranteed'])
                 ->default('open');
             //  guaranteed, we will organize this tour.
 

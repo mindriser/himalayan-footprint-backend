@@ -18,13 +18,13 @@ return new class extends Migration
                 ->constrained('packages')
                 // ->restrictOnDelete();
                 ->nullOnDelete();
-            $table->string('tour_name'); // snapshot
+            $table->string('tour_name')->nullable(); // snapshot
             $table->string('name');
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('country')->nullable();
 
-            $table->text('message')->nullable();
+            $table->text('message');
             $table->integer('num_travelers')->nullable();
             $table->timestamps();
         });

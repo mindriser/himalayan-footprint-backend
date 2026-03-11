@@ -15,13 +15,13 @@ class EnquiryForm
             ->components([
                 Select::make('package_id')
                     ->relationship('package', 'title')
-                    ->required()
+                    // ->required()
                     ->preload()
                     ->searchable(),
                 // TextInput::make('package_id')
                 //     ->numeric(),
-                TextInput::make('tour_name')
-                    ->required(),
+                TextInput::make('tour_name'),
+                    // ->required(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')

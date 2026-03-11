@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('category_id')
-            //     ->constrained()
-            //     ->restrictOnDelete();
-            $table->enum('category', ['tour', 'trek'])->default('travel');
+            $table->foreignId('category_id')
+                ->constrained()
+                ->restrictOnDelete();
+            // $table->enum('category', ['tour', 'trek'])->default('travel');
 
             $table->string('title');
             $table->string('slug')->unique();
@@ -24,15 +24,16 @@ return new class extends Migration
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
 
-            $table->decimal('old_single_price', 10, 2)->nullable();
-            $table->decimal('new_single_price', 10, 2)->nullable();
-
+            // $table->decimal('old_single_price', 10, 2)->nullable();
+            // $table->decimal('new_single_price', 10, 2)->nullable();
             $table->decimal('old_group_price', 10, 2)->nullable();
             $table->decimal('new_group_price', 10, 2)->nullable();
+            // $table->decimal('old_price', 10, 2)->nullable();
+            // $table->decimal('price', 10, 2)->nullable();
 
-            $table->enum('currency', ['USD', 'EUR', 'NPR'])->default("USD");
+            // $table->enum('currency', ['USD', 'EUR', 'NPR'])->default("USD");
 
-            $table->integer('min_group_size')->nullable(); // this define how travellers will be treated as  person  or a group
+            $table->integer('min_group_size')->default(4); // this define how travellers will be treated as  person  or a group
 
 
             $table->string('destination')->nullable(); // solukhumub
@@ -46,8 +47,8 @@ return new class extends Migration
             $table->string('accomodations')->nullable();
             $table->string('meals')->nullable();
             $table->string('max_people_per_trip')->nullable(); // 8 - 12
-            $table->unsignedInteger('total_reviews')->nullable();
-            $table->decimal('rating', 2, 1)->nullable();
+            // $table->unsignedInteger('total_reviews')->nullable();
+            // $table->decimal('rating', 2, 1)->nullable();
             $table->string('best_time')->nullable();
 
             $table->boolean('is_featured')->default(false);

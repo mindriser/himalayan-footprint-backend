@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreEnquiryRequest;
 use App\Models\Enquiry;
 use Illuminate\Http\Request;
 
@@ -26,9 +27,17 @@ class EnquiryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreEnquiryRequest $request)
     {
         //
+
+        $enquiry = Enquiry::create($request->validated());
+
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Enquiry submitted successfully. We will get back to you within 24 hours.',
+        ], 201);
     }
 
     /**

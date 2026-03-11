@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class BlogPackage extends Model
 {
-    protected $guarded  = [];
+    //
+    protected $guarded = [];
 }
