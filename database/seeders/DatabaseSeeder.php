@@ -37,15 +37,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::factory()->create([
-            'name' => 'Editor User',
-            'email' => 'editor@editor.com',
-            'role' => 'editor',
+            'name' => 'mangaer User',
+            'email' => 'manager@editor.com',
+            'role' => 'manager',
             'password' => Hash::make('password'),
         ]);
         User::factory()->create([
             'name' => 'Blog User',
             'email' => 'blog@blog.com',
-            'role' => 'blog-writer',
+            'role' => 'content_writer',
             'password' => Hash::make('password'),
         ]);
 
@@ -601,7 +601,7 @@ class DatabaseSeeder extends Seeder
 
         $baseStartDate = Carbon::now()->addMonth(); // first departure 1 month from now
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 20; $i++) {
 
             $startDate = $baseStartDate->copy()->addMonths($i);
             $endDate = $startDate->copy()->addDays(15); // 15 day trip
@@ -620,6 +620,8 @@ class DatabaseSeeder extends Seeder
 
             $departures[] = [
                 'type' => rand(0, 1) ? 'fixed' : 'custom',
+                // 'type' => rand(0, 1) ? 'fixed' : 'custom',
+                'type' => "fixed",
                 'description' => $description,
                 'package_id' => 1,
                 'start_date' => $startDate,
@@ -845,7 +847,7 @@ class DatabaseSeeder extends Seeder
             foreach ($reviews as $review) {
                 $rows[] = array_merge($review, [
                     'package_id' => $packageId,
-                    'status'=>'approved',
+                    'status' => 'approved',
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
@@ -1375,7 +1377,7 @@ class DatabaseSeeder extends Seeder
 
         ]);
 
-         DB::table('instagram_posts')->insert([
+        DB::table('instagram_posts')->insert([
             [
                 'photo_url' => 'one.jpg',
                 'instagram_link' => 'https://instagram.com/p/post1',

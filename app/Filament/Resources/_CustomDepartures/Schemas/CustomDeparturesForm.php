@@ -24,8 +24,19 @@ class CustomDeparturesForm
                         'fixed' => 'Fixed',
                         'custom' => 'Custom',
                     ])
+                    ->readOnly()
                     ->default('fixed')
                     ->required(),
+
+                Select::make('type')
+                    ->label('Departure Type')
+                    ->options([
+                        'fixed' => 'Fixed',
+                        'custom' => 'Custom',
+                    ])
+                    ->default('fixed')
+                    ->required()
+                    ->readOnly(),
 
                 Select::make('package_id')
                     ->label('Package')

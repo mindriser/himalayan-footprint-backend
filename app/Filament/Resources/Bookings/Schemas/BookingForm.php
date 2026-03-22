@@ -11,7 +11,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Text;
 use Filament\Schemas\Schema;
+use Illuminate\Support\HtmlString;
 
 class BookingForm
 {
@@ -20,6 +22,7 @@ class BookingForm
         return $schema
             ->components([
                 Select::make('departure_id')
+                    ->disabled()
                     ->label('Departure')
                     ->required()
                     ->preload() // load options when form loads
@@ -35,52 +38,59 @@ class BookingForm
                                 $packageTitle = $departure->package->title ?? '';
                                 $startDate = Carbon::parse($departure->start_date)->format('Y-m-d');
                                 $endDate = Carbon::parse($departure->end_date)->format('Y-m-d');
-                                return [$departure->id => "{$packageTitle} : {$startDate}-{$endDate}"];
+                                return [$departure->id => "{$packageTitle} : {$startDate} to {$endDate} | " . $departure->description];
                             })
                             ->toArray();
                     })
                     ->placeholder('Select a departure'),
+                Text::make('departure_link')
+                    ->content(function ($get) {
+                        $departureId = $get('departure_id');
+
+                        if (!$departureId) {
+                            return new HtmlString('<span style="color: gray;">Select a departure to view details</span>');
+                        }
+
+                        $url = url("/admin/departures/{$departureId}/edit");
+
+                        return new HtmlString("<a href='{$url}' target='_blank' style='color: #2563eb; text-decoration: underline;'>🔗 View Departure</a>");
+                    }),
+
+
                 TextInput::make('package_name')
+                    ->disabled()
                     ->required(),
                 DatePicker::make('departure_start_date')
+                    ->disabled()
                     ->required(),
                 DatePicker::make('departure_end_date')
+                    ->disabled()
                     ->required(),
                 TextInput::make('booking_reference')
+                    ->disabled()
                     ->required(),
-                TextInput::make('min_group_size')
-                    ->label("Number of travellers to be considered group")
-                    ->required()
-                    ->numeric(),
-                TextInput::make('single_person_price')
-                    ->label("price per Individual")
-                    ->required()
-                    ->numeric(),
-                TextInput::make('group_person_price')
-                    ->label("price per person in a group")
-                    ->required()
-                    ->numeric(),
+
                 TextInput::make('num_travelers')
                     ->label("Number of travellers")
                     ->required()
+                    ->disabled()
                     ->numeric(),
                 TextInput::make('base_price')
                     ->required()
                     ->numeric()
+                    ->disabled()
                     ->prefix('$'),
                 TextInput::make('total_price')
                     ->required()
                     ->numeric()
+                    ->disabled()
                     ->prefix('$'),
-                // TextInput::make('currency')
-                //     ->maxLength(4)
-                //     ->required(),
+
                 Select::make('booking_status')
                     ->options([
                         'pending' => 'Pending',
                         'confirmed' => 'Confirmed',
                         'cancelled' => 'Cancelled',
-                        'expired' => 'Expired',
                     ])
                     ->required()
                     ->default('pending'),
@@ -95,10 +105,15 @@ class BookingForm
                     ->default('unpaid'),
                 Textarea::make('special_request')
                     ->columnSpanFull(),
+                Textarea::make('remarks')
+                    ->columnSpanFull(),
+                Textarea::make('admin_notes')
+                    ->columnSpanFull(),
                 DateTimePicker::make('booked_at')
-                    ->required(),
-                DateTimePicker::make('confirmed_at'),
-                DateTimePicker::make('cancelled_at'),
+                    ->required()
+                    ->disabled(),
+                DateTimePicker::make('confirmed_at')->disabled(),
+                DateTimePicker::make('cancelled_at')->disabled(),
 
 
                 // start this on new row,
@@ -122,18 +137,15 @@ class BookingForm
                                 'other' => 'Other',
                             ])
                             ->nullable(),
-                        DatePicker::make('dob')
-                            ->label('Date of Birth')
-                            ->nullable()
-                            // ->typeable() // allows typing the date manually
-                            ->displayFormat('Y-m-d') // how the date is displayed in the input
-                            ->placeholder('YYYY-MM-DD'),
+                        TextInput::make('age')
+                            ->nullable(),
                         TextInput::make('nationality')
                             ->label('Nationality'),
                         TextInput::make('passport_number')
                             ->label('Passport Number'),
                         Toggle::make('is_lead_member')
                             ->label('Lead Member')
+                            ->disabled()
                             ->inline(false),
                         // there shoould only be one lead member
                     ])

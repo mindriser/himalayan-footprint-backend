@@ -20,7 +20,7 @@ return new class extends Migration
             // user who will ask for custom departure request
             // only fixed ones will be shown to normal vistor users
 
-            $table->text('description')->nullable();
+            $table->text('description');
 
             $table->foreignId('package_id')  // variant of a tour package eg: luxury
                 ->constrained('packages')
@@ -40,6 +40,7 @@ return new class extends Migration
             // last date when customer are allowed to book  that departure. because if they book just before the departure, we may not be
             // able to  prepare accordingly for them. we have to prepare and manage according to the number of booked visitors.
             $table->timestamps();
+             $table->softDeletes(); 
         });
     }
 

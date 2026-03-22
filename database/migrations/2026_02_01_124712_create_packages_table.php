@@ -33,8 +33,7 @@ return new class extends Migration
 
             // $table->enum('currency', ['USD', 'EUR', 'NPR'])->default("USD");
 
-            $table->integer('min_group_size')->default(4); // this define how travellers will be treated as  person  or a group
-
+            $table->integer('min_group_size')->default(4); // this define how travellers are required for the trip to be valid ,may be using this we can later set as guarenteed departure.
 
             $table->string('destination')->nullable(); // solukhumub
             $table->string('duration_label')->nullable(); // 10-15 days
@@ -64,6 +63,7 @@ return new class extends Migration
             $table->text('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // 👈 add this
         });
     }
 

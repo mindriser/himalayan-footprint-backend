@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('subscribed_at')->useCurrent();
             $table->timestamp('unsubscribed_at')->nullable();
             $table->timestamps();
+            $table->softDeletes(); // 👈 add this
         });
     }
 

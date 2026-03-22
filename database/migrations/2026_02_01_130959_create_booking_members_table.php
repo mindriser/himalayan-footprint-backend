@@ -15,15 +15,16 @@ return new class extends Migration
             $table->id();
             // $table->uuid('booking_id'); // why uuid
             $table->foreignId('booking_id')
+                ->nullable()
                 ->constrained('bookings')
-                ->restrictOnDelete(); // this means we cant delte bookings ?
+                ->nullOnDelete(); // this means we cant delte bookings ?
             // lets store the snapshot instead..
 
             $table->string('full_name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();
             $table->enum('gender', ['male', 'female', 'other'])->nullable();
-            $table->date('dob')->nullable(); // better than age
+            $table->integer('age')->nullable();
             $table->string('nationality')->nullable();
             $table->string('passport_number')->nullable();
             $table->boolean('is_lead_member')->default(false);

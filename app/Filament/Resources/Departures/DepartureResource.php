@@ -15,6 +15,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 
 class DepartureResource extends Resource
 {
@@ -25,7 +26,7 @@ class DepartureResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $recordTitleAttribute = 'type';
+    protected static ?string $recordTitleAttribute = 'description';
 
 
     // public static function tableQuery(): Builder
@@ -66,5 +67,11 @@ class DepartureResource extends Resource
             'create' => CreateDeparture::route('/create'),
             'edit' => EditDeparture::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user->role === 'admin' || $user->role === 'manager';
     }
 }

@@ -64,6 +64,6 @@ class CategoryResource extends Resource
     public static function shouldRegisterNavigation(): bool
     {
         $user = Auth::user();
-        return $user->role === 'admin';
+        return $user->role === 'admin' || $user->role === 'manager';
     }
 }

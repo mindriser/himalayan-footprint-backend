@@ -13,6 +13,8 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
+
 
 class ContactResource extends Resource
 {
@@ -46,5 +48,11 @@ class ContactResource extends Resource
             'create' => CreateContact::route('/create'),
             'edit' => EditContact::route('/{record}/edit'),
         ];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user->role === 'admin' || $user->role === 'manager';
     }
 }

@@ -18,10 +18,11 @@ class CategoryForm
                     ->required()
                     ->live(onBlur: true)
                     ->unique(ignoreRecord: true)
-                    ->afterStateUpdated(
-                        fn($state, callable $set) =>
-                        $set('slug', Str::slug($state))
-                    ),
+                    ->afterStateUpdated(function ($state, callable $set, $record) {
+                        if (!$record) {
+                            $set('slug', Str::slug($state));
+                        }
+                    }),
                 TextInput::make('slug')
                     ->required()
                     ->unique(ignoreRecord: true)

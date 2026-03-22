@@ -24,6 +24,7 @@ class DepartureForm
                         'custom' => 'Custom',
                     ])
                     ->default('fixed')
+                    ->disabled()
                     ->required(),
 
                 Select::make('package_id')
@@ -44,6 +45,7 @@ class DepartureForm
                 Textarea::make('description')
                     ->label('Description')
                     ->placeholder('Write something about the departure...')
+                    ->maxLength(255)
                     ->columnSpanFull(),
 
                 // Start date (cannot select past dates)

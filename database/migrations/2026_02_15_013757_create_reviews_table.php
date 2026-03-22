@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('created_by', ['admin', 'user'])->default('admin'); // created by admin or user
             $table->enum('status', ['approved', 'pending', 'rejected'])->default('pending'); // status
             $table->timestamps();
+            $table->softDeletes(); 
         });
     }
 

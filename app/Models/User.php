@@ -8,7 +8,7 @@ use Filament\Models\Contracts\FilamentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Panel; 
+use Filament\Panel;
 
 class User extends Authenticatable implements FilamentUser
 {
@@ -24,6 +24,8 @@ class User extends Authenticatable implements FilamentUser
         'name',
         'email',
         'password',
+        'role',
+        "is_active"
     ];
 
     /**
@@ -49,8 +51,9 @@ class User extends Authenticatable implements FilamentUser
         ];
     }
 
-      public function canAccessPanel(Panel $panel): bool
+
+    public function canAccessPanel(Panel $panel): bool
     {
-        return true;
+        return $this->is_active;
     }
 }

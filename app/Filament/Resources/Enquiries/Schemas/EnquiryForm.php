@@ -21,17 +21,20 @@ class EnquiryForm
                 // TextInput::make('package_id')
                 //     ->numeric(),
                 TextInput::make('tour_name'),
-                    // ->required(),
+                // ->required(),
                 TextInput::make('name')
                     ->required(),
                 TextInput::make('email')
                     ->label('Email address')
                     ->email()
                     ->required(),
-                TextInput::make('phone')
-                    ->tel(),
+                TextInput::make('phone'),
+                // ->tel(),
                 TextInput::make('country'),
                 Textarea::make('message')
+                    ->columnSpanFull(),
+                Textarea::make('remarks')
+                    ->label("Admin remarks")
                     ->columnSpanFull(),
                 TextInput::make('num_travelers')
                     ->numeric(),

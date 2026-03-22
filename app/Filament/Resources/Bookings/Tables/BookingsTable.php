@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Bookings\Tables;
 
+use Carbon\Carbon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -14,9 +15,25 @@ class BookingsTable
     {
         return $table
             ->columns([
-                TextColumn::make('departure_id')
-                    ->numeric()
-                    ->sortable(),
+             
+                TextColumn::make('departure.id')
+                    ->label('Departure')
+                    ->getStateUsing(function ($record) {
+                        $departure = $record->departure;
+                        if (!$departure) return '-';
+
+                        $packageTitle = $departure->package->title ?? '';
+                        $startDate = Carbon::parse($departure->start_date)->format('Y-m-d');
+                        $endDate = Carbon::parse($departure->end_date)->format('Y-m-d');
+
+                        return "{$packageTitle} : {$startDate} to {$endDate}";
+                    })
+                    ->sortable()
+                    ->searchable(query: function ($query, $search) {
+                        $query->whereHas('departure.package', fn($q) => $q->where('title', 'like', "%{$search}%"));
+                    }),
+
+
                 TextColumn::make('package_name')
                     ->searchable(),
                 TextColumn::make('departure_start_date')
@@ -39,8 +56,10 @@ class BookingsTable
                 // TextColumn::make('currency')
                 //     ->searchable(),
                 TextColumn::make('booking_status')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('payment_status')
+                    ->sortable()
                     ->searchable(),
                 TextColumn::make('booked_at')
                     ->dateTime()

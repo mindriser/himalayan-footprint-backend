@@ -25,8 +25,10 @@ return new class extends Migration
             $table->string('country')->nullable();
 
             $table->text('message');
+            $table->text('remarks')->nullable();
             $table->integer('num_travelers')->nullable();
             $table->timestamps();
+             $table->softDeletes(); 
         });
     }
 

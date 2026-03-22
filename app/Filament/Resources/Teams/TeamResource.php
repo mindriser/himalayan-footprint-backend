@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Illuminate\Support\Facades\Auth;
 
 class TeamResource extends Resource
 {
@@ -46,5 +47,11 @@ class TeamResource extends Resource
             'create' => CreateTeam::route('/create'),
             'edit' => EditTeam::route('/{record}/edit'),
         ];
+    }
+
+     public static function shouldRegisterNavigation(): bool
+    {
+        $user = Auth::user();
+        return $user->role === 'admin' || $user->role === 'manager';
     }
 }

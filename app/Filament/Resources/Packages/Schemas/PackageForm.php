@@ -49,10 +49,11 @@ class PackageForm
                         TextInput::make('title')
                             ->required()
                             ->live(onBlur: true)
-                            ->afterStateUpdated(
-                                fn($state, callable $set) =>
-                                $set('slug', Str::slug($state))
-                            ),
+                            ->afterStateUpdated(function ($state, callable $set, $record) {
+                                if (!$record) {
+                                    $set('slug', Str::slug($state));
+                                }
+                            }),
 
                         //  FIXME: donot change slug if the package has been already published before.
 
@@ -127,9 +128,11 @@ class PackageForm
                         //     ->numeric()
                         //     ->prefix('$'),
                         TextInput::make('old_group_price')
+                            ->label("Old Price")
                             ->numeric()
                             ->prefix('$'),
                         TextInput::make('new_group_price')
+                            ->label("New Price")
                             ->numeric()
                             ->prefix('$'),
                         TextInput::make('min_group_size')
