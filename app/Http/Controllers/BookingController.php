@@ -6,6 +6,7 @@ use App\Mail\BookingAdminNotificationMail;
 use App\Mail\BookingConfirmationMail;
 use App\Models\Booking;
 use App\Models\Departure;
+use App\Models\User;
 use App\Traits\ProcessesItineraryImages;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -131,14 +132,14 @@ class BookingController extends Controller
 
         $leadEmail = $leadMember['email'] ?? null;
 
-        $adminEmails = [
-            'dev.sagartmg@gmail.com',
-            'tamangsagar70@gmail.com',
-        ];
+
+        $adminEmails = User::whereIn('role', ['admin', 'manager'])
+            ->pluck('email')
+            ->toArray();
 
         if ($leadEmail) {
             Mail::to($leadEmail)->send(new BookingConfirmationMail($booking));
-            Mail::to($adminEmails)->send(new BookingAdminNotificationMail($booking,$departure));
+            Mail::to($adminEmails)->send(new BookingAdminNotificationMail($booking, $departure));
         }
 
         return response()->json([
