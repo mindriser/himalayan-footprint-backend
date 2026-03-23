@@ -19,9 +19,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 
-Route::get('/', function () {
+Route::get('/phpinfo', function () {
     dd(phpinfo());
-    // return view('welcome');
+});
+
+Route::get('/', function () {
+    return redirect('/admin');
 });
 
 Route::prefix('api')
