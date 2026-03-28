@@ -325,7 +325,7 @@
                 <div class="day-body">
 
                     {{-- Images: 2 per row using table --}}
-                    @if ($day->processedImages->isNotEmpty())
+                    {{-- @if ($day->processedImages->isNotEmpty())
                         @php $chunks = $day->processedImages->chunk(2); @endphp
                         @foreach ($chunks as $row)
                             <table class="images-table">
@@ -342,7 +342,7 @@
                                 </tr>
                             </table>
                         @endforeach
-                    @endif
+                    @endif --}}
 
 
                     <div class="description">

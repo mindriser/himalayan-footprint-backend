@@ -189,7 +189,7 @@ class BookingController extends Controller
             ->get();
 
 
-        $itineraries = $this->processItineraryImages($itineraries);
+        // $itineraries = $this->processItineraryImages($itineraries);
 
         $pdf = Pdf::loadView('itinerary-pdf', compact('booking', 'itineraries'))
             ->setPaper('a4');

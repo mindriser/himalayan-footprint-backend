@@ -49,11 +49,12 @@ return new class extends Migration
             // $table->unsignedInteger('total_reviews')->nullable();
             // $table->decimal('rating', 2, 1)->nullable();
             $table->string('best_time')->nullable();
-
+            
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_popular')->default(false);
             $table->boolean('is_luxury')->default(false);
-
+            $table->string('route_map')->nullable();
+            
             // $table->longText('inclusions')->nullable(); // HTML/Markdown
             // $table->longText('exclusions')->nullable(); // HTML/Markdown
 

@@ -195,7 +195,12 @@ class PackageForm
                             ->label('Popular')
                             ->default(true),
                     ]),
-
+                FileUpload::make('route_map')
+                    ->label('Route Map')
+                    ->image()
+                    ->maxSize(10240) // 10MB
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->helperText('1mb max file size allowed.'),
                 Section::make('Content')
                     ->collapsed(true)
                     ->lazy() // <--- key optimization

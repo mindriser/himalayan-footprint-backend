@@ -170,16 +170,16 @@ class PackageController extends Controller
         $package = Package::where('slug', $slug)
             ->with([
                 'itineraries' => fn($q) => $q->orderBy('day_number'),
-                'itineraries.images',  // eager load polymorphic images
+                // 'itineraries.images',  // eager load polymorphic images
             ])
             ->firstOrFail();
 
 
-        $itineraries = $this->processItineraryImages($package->itineraries);
+        // $itineraries = $this->processItineraryImages($package->itineraries);
 
         $pdf = Pdf::loadView('itinerary-pdf', [
             'package'     => $package,           // $booking is absent — view handles it
-            'itineraries' => $itineraries
+            // 'itineraries' => $itineraries
         ])->setPaper('a4');
 
         // return view('itinerary-pdf', [
