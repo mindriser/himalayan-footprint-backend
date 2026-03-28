@@ -23,8 +23,8 @@ class BannerForm
                     // ->visibility('public')
                     ->image()
                     ->required(),
-                TextInput::make('redirect_url')
-                    ->url(),
+                TextInput::make('redirect_url'),
+                // ->url(),
                 TextInput::make('redirect_label'),
             ]);
     }
