@@ -175,11 +175,11 @@ class PackageController extends Controller
             ->firstOrFail();
 
 
-        // $itineraries = $this->processItineraryImages($package->itineraries);
+        $itineraries = $package->itineraries;
 
         $pdf = Pdf::loadView('itinerary-pdf', [
             'package'     => $package,           // $booking is absent — view handles it
-            // 'itineraries' => $itineraries
+            'itineraries' => $itineraries
         ])->setPaper('a4');
 
         // return view('itinerary-pdf', [
