@@ -16,14 +16,12 @@ return new class extends Migration
             $table->foreignId('package_id')
                 ->nullable()
                 ->constrained('packages')
-                // ->restrictOnDelete();
                 ->nullOnDelete();
             $table->string('tour_name')->nullable(); // snapshot
             $table->string('name');
             $table->string('email');
             $table->string('phone')->nullable();
             $table->string('country')->nullable();
-
             $table->text('message');
             $table->text('remarks')->nullable();
             $table->integer('num_travelers')->nullable();

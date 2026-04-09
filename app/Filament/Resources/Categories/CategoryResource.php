@@ -61,9 +61,9 @@ class CategoryResource extends Resource
     }
 
     // Add this method to control sidebar visibility
-    public static function shouldRegisterNavigation(): bool
-    {
-        $user = Auth::user();
-        return $user->role === 'admin' || $user->role === 'manager';
-    }
+    // public static function shouldRegisterNavigation(): bool
+    // {
+    //     $user = Auth::user();
+    //     return $user->role === 'admin' || $user->role === 'manager';
+    // }
 }

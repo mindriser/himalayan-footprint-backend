@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
             $table->string('email')->unique();
-            $table->string('name')->nullable(); // optional
+            $table->string('name')->nullable(); 
             $table->enum('status', ['active', 'unsubscribed'])
                 ->default('active');
             $table->string('source')->nullable();
             $table->timestamp('subscribed_at')->useCurrent();
             $table->timestamp('unsubscribed_at')->nullable();
             $table->timestamps();
-            $table->softDeletes(); // 👈 add this
+            $table->softDeletes(); 
         });
     }
 

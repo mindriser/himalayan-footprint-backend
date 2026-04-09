@@ -61,6 +61,8 @@ class BlogForm
                 // FIXME: should be unique...
 
                 FileUpload::make('image_url')
+                    ->maxSize(2048)
+                    ->hint("Max 2MB file size")
                     ->image(),
                 RichEditor::make('content') // rich text editor
                     ->required()

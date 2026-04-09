@@ -50,9 +50,9 @@ class ContactResource extends Resource
         ];
     }
 
-    public static function shouldRegisterNavigation(): bool
-    {
-        $user = Auth::user();
-        return $user->role === 'admin' || $user->role === 'manager';
-    }
+    // public static function shouldRegisterNavigation(): bool
+    // {
+    //     $user = Auth::user();
+    //     return $user->role === 'admin' || $user->role === 'manager';
+    // }
 }

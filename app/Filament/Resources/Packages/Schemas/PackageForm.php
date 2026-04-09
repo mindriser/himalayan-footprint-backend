@@ -228,6 +228,8 @@ class PackageForm
                                 FileUpload::make('image_url')
                                     // ->disk("public")
                                     // ->visibility('public')
+                                    ->maxSize(2048)
+                                    ->hint('2mb max file size allowed.')
                                     ->label('Image')
                                     ->image()
                                     ->required(),

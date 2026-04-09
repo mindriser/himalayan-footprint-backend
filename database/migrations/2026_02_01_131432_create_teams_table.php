@@ -14,19 +14,12 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
-            $table->string('image')->nullable(); // profile photo path / URL
-
-            $table->string('designation')->nullable(); // Guide, Porter, Leader
-
+            $table->string('image')->nullable(); 
+            $table->string('designation')->nullable(); 
             $table->string('department')->nullable();
-            // guide, executive, marketing, leaders
-
-            $table->string('contact')->nullable(); // phone / whatsapp / email
-
+            $table->string('contact')->nullable(); 
             $table->text('description')->nullable();
             $table->timestamps();
-            
         });
     }
 

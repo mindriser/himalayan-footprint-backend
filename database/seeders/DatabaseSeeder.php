@@ -31,26 +31,24 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Admin User',
-            'email' => 'admin@admin.com',
+            'email' => 'tamangsagar70@gmail.com',
             'role' => 'admin',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Pa$$word1$'),
         ]);
 
         User::factory()->create([
             'name' => 'mangaer User',
-            'email' => 'manager@editor.com',
+            'email' => 'dev.sagartmg@gmail.com',
             'role' => 'manager',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Pa$$word1$'),
         ]);
+
         User::factory()->create([
             'name' => 'Blog User',
-            'email' => 'blog@blog.com',
+            'email' => 'raisugam224@gmail.com',
             'role' => 'content_writer',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('fjCgkU8LfRuz'),
         ]);
-
-
-
 
         DB::table('categories')->insert([
             [

@@ -13,20 +13,14 @@ return new class extends Migration
     {
         Schema::create('faqs', function (Blueprint $table) {
             $table->id();
-
             $table->foreignId('package_id')
                 ->nullable() // if this is not of specific pacakge and is global website faq
                 ->constrained()
                 ->cascadeOnDelete();
-
-            // FAQ content
             $table->string('question');
-            $table->text('answer'); // rich text editor
+            $table->text('answer'); 
             $table->boolean('is_active')->default(true);
-
-            // optional: ordering
             $table->integer('sort_order')->default(0);
-
             $table->timestamps();
         });
     }

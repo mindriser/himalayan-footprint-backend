@@ -13,13 +13,10 @@ return new class extends Migration
     {
         Schema::create('booking_members', function (Blueprint $table) {
             $table->id();
-            // $table->uuid('booking_id'); // why uuid
             $table->foreignId('booking_id')
                 ->nullable()
                 ->constrained('bookings')
-                ->nullOnDelete(); // this means we cant delte bookings ?
-            // lets store the snapshot instead..
-
+                ->nullOnDelete(); 
             $table->string('full_name');
             $table->string('email')->nullable();
             $table->string('phone')->nullable();

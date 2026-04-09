@@ -12,6 +12,12 @@ Artisan::command('inspire', function () {
 
 
 Artisan::command('test-cmd', function () {
-    Log::info('test command');
+    // echo "test command";
+    // $a = $b + $c;
+    // Log::info('test command');
 });
 
+
+// Schedule::command('queue:work --stop-when-empty')
+//     ->everyMinute()
+//     ->withoutOverlapping();

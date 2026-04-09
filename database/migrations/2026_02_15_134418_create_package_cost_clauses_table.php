@@ -16,9 +16,7 @@ return new class extends Migration
             $table->foreignId('package_id')
                 ->constrained()
                 ->cascadeOnDelete();
-
             $table->enum('type', ['inclusion', 'exclusion']);
-
             $table->text('title')->nullable();
             $table->text('description');
             $table->integer('sort_order')->default(0);

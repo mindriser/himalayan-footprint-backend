@@ -12,22 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('blogs', function (Blueprint $table) {
-            $table->id(); // BIGINT AUTO_INCREMENT PRIMARY KEY
-            $table->string('category'); // Optional category
-            $table->string('title'); // Blog title
-            $table->string('slug')->unique(); // URL-friendly identifier
-            $table->text('content'); // Main content of the blog
+            $table->id();   
+            $table->string('category'); 
+            $table->string('title'); 
+            $table->string('slug')->unique(); 
+            $table->text('content'); 
             $table->text('readingTime');
             $table->foreignId('user_id')
-                ->nullable()             // allows NULL
-                ->constrained()          // links to users table
+                ->nullable()             
+                ->constrained()          
                 ->nullOnDelete();
-            $table->string('image_url')->nullable(); // Optional image path
-            $table->boolean('is_published')->default(false); // Draft/published status
-            $table->unsignedBigInteger('initial_view_count')->default(0); // fake initial views
-            $table->unsignedBigInteger('view_count')->default(0); // current view count
-            $table->boolean('is_featured')->default(false); // to show in home page
-            $table->timestamps(); // created_at & updated_at
+            $table->string('image_url')->nullable(); 
+            $table->boolean('is_published')->default(false); 
+            $table->unsignedBigInteger('initial_view_count')->default(0); 
+            $table->unsignedBigInteger('view_count')->default(0); 
+            $table->boolean('is_featured')->default(false); 
+            $table->timestamps(); 
         });
     }
 

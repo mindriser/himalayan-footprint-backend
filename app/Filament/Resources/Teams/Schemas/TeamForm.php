@@ -24,6 +24,8 @@ class TeamForm
                     // ->disk('public')  // Use the public disk
                     ->label('Profile Image')
                     ->image()
+                    ->maxSize(1024)
+                    ->hint("Max 1mb file size")
                     // ->visibility('public')
                     ->imagePreviewHeight('150')
                     ->placeholder('Upload profile image'),

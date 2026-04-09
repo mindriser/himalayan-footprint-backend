@@ -16,55 +16,33 @@ return new class extends Migration
             $table->foreignId('category_id')
                 ->constrained()
                 ->restrictOnDelete();
-            // $table->enum('category', ['tour', 'trek'])->default('travel');
-
             $table->string('title');
             $table->string('slug')->unique();
-
             $table->text('short_description')->nullable();
             $table->longText('description')->nullable();
-
-            // $table->decimal('old_single_price', 10, 2)->nullable();
-            // $table->decimal('new_single_price', 10, 2)->nullable();
             $table->decimal('old_group_price', 10, 2)->nullable();
             $table->decimal('new_group_price', 10, 2)->nullable();
-            // $table->decimal('old_price', 10, 2)->nullable();
-            // $table->decimal('price', 10, 2)->nullable();
-
-            // $table->enum('currency', ['USD', 'EUR', 'NPR'])->default("USD");
-
-            $table->integer('min_group_size')->default(4); // this define how travellers are required for the trip to be valid ,may be using this we can later set as guarenteed departure.
-
+            $table->integer('min_group_size')->default(4);
             $table->string('destination')->nullable(); // solukhumub
             $table->string('duration_label')->nullable(); // 10-15 days
             $table->string('badge')->nullable(); // popular, cultural, best seller
-
             $table->enum('difficulty', ['easy', 'moderate', 'hard'])->nullable();
-
             $table->string('max_elevation')->nullable();
             $table->string('activities')->nullable();
             $table->string('accomodations')->nullable();
             $table->string('meals')->nullable();
-            $table->string('max_people_per_trip')->nullable(); // 8 - 12
-            // $table->unsignedInteger('total_reviews')->nullable();
-            // $table->decimal('rating', 2, 1)->nullable();
+            $table->string('max_people_per_trip')->nullable();
             $table->string('best_time')->nullable();
-            
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_popular')->default(false);
             $table->boolean('is_luxury')->default(false);
             $table->string('route_map')->nullable();
-            
-            // $table->longText('inclusions')->nullable(); // HTML/Markdown
-            // $table->longText('exclusions')->nullable(); // HTML/Markdown
-
-
-            $table->boolean('is_active')->default(true); // something will keep in draft so.
+            $table->boolean('is_active')->default(true);
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->timestamps();
-            $table->softDeletes(); // 👈 add this
+            $table->softDeletes();
         });
     }
 

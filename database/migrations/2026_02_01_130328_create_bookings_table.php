@@ -18,50 +18,18 @@ return new class extends Migration
             $table->foreignId('departure_id')
                 ->constrained('departures')
                 ->restrictOnDelete();
-
-            //  soft dlete departures, not hard delete
-
-            // ->restrictOnDelete(); // this means we cant delete departures
-            //   variant -> slots
-            // variant on delete cascade slots...
-            // what if i delete variant then ?
-            // package -> variant
-            // package on delete cascade variants
-            //  what if i delete package ?
-            //  what will happen to my bookings.
-
-            $table->string('package_name'); // snapshot // befacuse dearptures may be dleted
+            $table->string('package_name'); // snapshot 
             $table->date('departure_start_date'); //snapshot
             $table->date('departure_end_date'); //snapshot
-
-            $table->string('booking_reference')->unique(); // ? where will this be used ?
-            //  visitors will use this to track their booking..
-            //  generate on the bais of package-name, year, start month-travellernumber-like this....,
-
-            // $table->string('customer_name');
-            // $table->string('customer_email');
-            // $table->string('customer_phone');
-            // $table->string('customer_country')->nullable(); // ISO code
-
+            $table->string('booking_reference')->unique(); 
             $table->integer('num_travelers');
-
-            // $table->decimal('single_person_price', 10, 2); // snapshot
-            // $table->decimal('group_person_price', 10, 2); // snapshot
             $table->decimal('base_price', 10, 2); // snapshot
             $table->decimal('total_price', 10, 2); // snapshot
-            // $table->integer('min_group_size'); // snapshot
-
-            // $table->string('currency', 4); // USD, EUR, NPR  // snapshot from product variant
-
             $table->enum('booking_status', [
                 'pending',
                 'confirmed',
                 'cancelled',
-                // 'expired',
             ])->default('pending');
-            // we may need to cancel custom departures
-            // or we may need to cancel for users who donot response.
-
             $table->enum('payment_status', [
                 'unpaid',
                 'partial',
@@ -72,19 +40,11 @@ return new class extends Migration
             $table->text('special_request')->nullable();
             $table->text('remarks')->nullable();
             $table->text('admin_notes')->nullable();
-            //  visitors may request us something like, please pick us
-
             $table->timestamp('booked_at')->useCurrent();
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamp('cancelled_at')->nullable();
-
             $table->timestamps();
-            // Helpful indexes
-            $table->index('booking_status');
-            $table->index('payment_status');
             $table->softDeletes(); 
-
-            // $table->index('customer_email');
         });
     }
 

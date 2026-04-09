@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->string('reviewer_name');
-            $table->string('reviewer_image')->nullable(); // can store path/URL
+            $table->string('reviewer_image')->nullable(); 
             $table->string('title')->nullable();
-            $table->text('description')->nullable(); // rich text stored as HTML
-            $table->tinyInteger('rating')->default(5); // 1-5
+            $table->text('description')->nullable(); 
+            $table->tinyInteger('rating')->default(5); 
             $table->date('review_date')->nullable();
-            $table->boolean('is_featured')->default(false); // show on homepage
-            $table->enum('created_by', ['admin', 'user'])->default('admin'); // created by admin or user
-            $table->enum('status', ['approved', 'pending', 'rejected'])->default('pending'); // status
+            $table->boolean('is_featured')->default(false); 
+            $table->enum('created_by', ['admin', 'user'])->default('admin'); 
+            $table->enum('status', ['approved', 'pending', 'rejected'])->default('pending'); 
             $table->timestamps();
             $table->softDeletes(); 
         });
