@@ -22,6 +22,12 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->web(append: [
             \Illuminate\Http\Middleware\HandleCors::class,
+            \App\Http\Middleware\RequestLogger::class,
+        ]);
+
+        $middleware->api(append: [
+            \Illuminate\Http\Middleware\HandleCors::class,
+            \App\Http\Middleware\RequestLogger::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
