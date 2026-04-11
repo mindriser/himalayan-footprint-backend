@@ -2,16 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use Spatie\Activitylog\Traits\LogsActivity;
+use Spatie\Activitylog\LogOptions;
+
+
 class Package extends Model
 {
+    use LogsActivity;
     use SoftDeletes;
 
     protected $guarded  = [];
     protected $appends = ['total_reviews', 'rating'];
+
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+            ->logAll()
+            ->logOnlyDirty()
+            ->dontSubmitEmptyLogs()
+            ->setDescriptionForEvent(fn(string $eventName) => "Package was {$eventName}");
+    }
 
 
     // Accessor for total reviews
