@@ -34,12 +34,16 @@ class PackageController extends Controller
         return response()->json(["data" => $packages]);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // fetch packages with their associalted variations
-        // send son resonse
-
         $packages = Package::active()
+            ->when($request->is_popular, function ($query) {
+                $query->where('is_popular', true);
+            })
+            ->when($request->is_featured, function ($query) {
+                $query->where('is_featured', true);
+            })
+
             ->with([
                 'category:id,name,slug',
                 'topImages:id,imageable_id,imageable_type,image_url,is_primary'
