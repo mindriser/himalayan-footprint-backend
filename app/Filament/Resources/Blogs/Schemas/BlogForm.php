@@ -84,6 +84,24 @@ class BlogForm
                     ->numeric()
                     ->default(0),
 
+                TextInput::make('meta_title')
+                    ->label('Meta Title')
+                    ->maxLength(60),
+
+                Textarea::make('meta_description')
+                    ->label('Meta Description')
+                    ->maxLength(160),
+
+                TextInput::make('meta_keywords')
+                    ->label('Meta Keywords')
+                    ->helperText('Comma separated keywords'),
+
+                FileUpload::make('meta_image')
+                    ->label('Meta Image')
+                    ->maxSize(1024)
+                    ->hint('1MB max file size allowed.')
+                    ->image(),
+
                 Select::make('relatedBlogs')
                     ->multiple()
                     ->relationship(
