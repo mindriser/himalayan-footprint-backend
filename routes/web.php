@@ -8,6 +8,7 @@ use App\Http\Controllers\DepartureController;
 use App\Http\Controllers\EnquiryController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InstagramPostController;
+use App\Http\Controllers\MetaTagController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SearchController;
@@ -107,6 +108,9 @@ Route::prefix('api')
         // })->where('filename', '.*');
 
 
+        Route::get('/meta-tags/{slug}', [MetaTagController::class, 'show'])->where('slug', '.*');
+
+
 
 
         Route::get('/images/{filename}', function ($filename) {
@@ -169,7 +173,6 @@ Route::prefix('api')
                 'Content-Type'  => $contentType,
                 'Cache-Control' => 'public, max-age=31536000',
             ]);
-            
         })->where('filename', '.*');
 
 

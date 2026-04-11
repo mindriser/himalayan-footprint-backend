@@ -14,9 +14,11 @@ class MetaTagForm
         return $schema
             ->components([
                 TextInput::make('slug')
+                    ->label("page | slug")
+                    ->hint('This is the URL slug for the page. eg: if frontned have /contact then slug is contact  if /about-us/team then slug is about-us/team')
                     ->required(),
                 TextInput::make('title')
-                ->label("Page Title"),
+                    ->label("Page Title"),
                 TextInput::make('meta_title'),
                 Textarea::make('meta_description')
                     ->columnSpanFull(),
