@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Intervention\Image\Laravel\Facades\Image;
+
 
 Route::get('/phpinfo', function () {
     dd(phpinfo());
@@ -91,6 +93,22 @@ Route::prefix('api')
         // Route::post('/booking', [BookingController::class, 'store']);
 
         // routes/api.php
+        // Route::get('/images/{filename}', function ($filename) {
+        //     $path = storage_path('app/private/' . $filename);
+
+        //     if (!file_exists($path)) {
+        //         abort(404);
+        //     }
+
+        //     return response()->file($path, [
+        //         'Content-Type' => mime_content_type($path),
+        //         'Cache-Control' => 'public, max-age=31536000',
+        //     ]);
+        // })->where('filename', '.*');
+
+
+
+
         Route::get('/images/{filename}', function ($filename) {
             $path = storage_path('app/private/' . $filename);
 
@@ -98,12 +116,61 @@ Route::prefix('api')
                 abort(404);
             }
 
-            return response()->file($path, [
-                'Content-Type' => mime_content_type($path),
+            $webp    = request()->boolean('webp', false);
+            $quality = (int) request()->get('quality', 85);
+            $width   = request()->get('width');
+            $height  = request()->get('height');
+
+            $quality = max(1, min(100, $quality));
+
+            // If no transformations requested, stream original file directly
+            if (!$webp && !$width && !$height) {
+                return response()->file($path, [
+                    'Content-Type'  => mime_content_type($path),
+                    'Cache-Control' => 'public, max-age=31536000',
+                ]);
+            }
+
+            // Build a cache key based on the params
+            $cacheKey = md5($filename . $webp . $quality . $width . $height);
+            $ext      = $webp ? 'webp' : pathinfo($filename, PATHINFO_EXTENSION);
+            $cachePath = storage_path("app/private/cache/{$cacheKey}.{$ext}");
+
+            // Serve from cache if it exists
+            if (file_exists($cachePath)) {
+                return response()->file($cachePath, [
+                    'Content-Type'  => $webp ? 'image/webp' : mime_content_type($cachePath),
+                    'Cache-Control' => 'public, max-age=31536000',
+                ]);
+            }
+
+            // Process the image
+            $image = Image::read($path);
+
+            if ($width || $height) {
+                $image->scaleDown(
+                    width: $width  ? (int) $width  : null,
+                    height: $height ? (int) $height : null,
+                );
+            }
+
+            // Ensure cache directory exists
+            @mkdir(storage_path('app/private/cache'), 0755, true);
+
+            if ($webp) {
+                $image->toWebp($quality)->save($cachePath);
+                $contentType = 'image/webp';
+            } else {
+                $image->save($cachePath, quality: $quality);
+                $contentType = mime_content_type($cachePath);
+            }
+
+            return response()->file($cachePath, [
+                'Content-Type'  => $contentType,
                 'Cache-Control' => 'public, max-age=31536000',
             ]);
+            
         })->where('filename', '.*');
-
 
 
 
