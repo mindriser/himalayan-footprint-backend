@@ -8,12 +8,16 @@ use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
-    //
+    public function getBlogsTitle()
+    {
+        $blogs = Blog::select('title','slug')->where('is_published', true)->get();
+        return response()->json([
+            "data" => $blogs
+        ]);
+    }
 
     public function index(Request $request)
     {
-
-
         $limit = $request->query('limit', 6);
         $sort = $request->query('sort', 'newest');
         $category = $request->query('category');

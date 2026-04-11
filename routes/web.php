@@ -68,6 +68,7 @@ Route::prefix('api')
         Route::get('/departures', [DepartureController::class, 'index']);
         Route::get('/departures/package/{package}', [DepartureController::class, 'getDepartuesByPackage']);
         Route::get('/blogs', [BlogController::class, 'index']);
+        Route::get('/blogs-only', [BlogController::class, 'getBlogsTitle']);
         Route::get('/blogs/{slug}', [BlogController::class, 'show']);
         Route::get('/blogs-featured', [BlogController::class, 'getFeaturedBlogs']);
         Route::get('/banners', [BannerController::class, 'index']);
