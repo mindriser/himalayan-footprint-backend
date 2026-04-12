@@ -36,7 +36,7 @@ Route::prefix('api')
 
         Route::get('/nav-links', function () {
             $data =  Package::with('category')->select('id', 'slug', 'title', 'category_id')
-                ->where('is_published', true)
+                ->where('is_active', true)
                 ->whereHas('category', function ($query) {
                     $query->where('show_in_navbar', true);
                 })
