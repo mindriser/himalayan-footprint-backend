@@ -33,8 +33,10 @@ Route::get('/', function () {
 Route::prefix('api')
     ->middleware(['api']) // stateless middleware
     ->group(function () {
+
         Route::get('/nav-links', function () {
             $data =  Package::with('category')->select('id', 'slug', 'title', 'category_id')
+                ->where('is_published', true)
                 ->whereHas('category', function ($query) {
                     $query->where('show_in_navbar', true);
                 })
